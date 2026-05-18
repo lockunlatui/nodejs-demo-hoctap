@@ -1,0 +1,23 @@
+{
+  "name": "buoi2",
+  "version": "1.0.0",
+  "description": "Hướng dẫn bài 2 của môn nodejs",
+  "keywords": [
+    "nodejs",
+    "npm"
+  ],
+  "license": "MIT",
+  "author": "locdx",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^10.3.0"
+  }
+}
