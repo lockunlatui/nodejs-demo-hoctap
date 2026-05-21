@@ -1,8 +1,22 @@
-// lấy thông tin user => M  => READ
-const store = require("../../store");
+const { readFile } = require('node:fs/promises'); 
+const path = require("path");
 
-function getUser() {
-  return store.users;
+// lấy thông tin user => M  => READ
+// const store = require("../../store");
+
+async function getUser() {
+  const filePath = path.join(__dirname, "../../store/data.json");
+
+  try {
+    const data = await readFile(filePath, "utf8");
+
+    console.log("data", data)
+
+    return JSON.parse(data);
+  } catch(err) {
+    console.log("error", err)
+  }
+  
 }
 
 // cập nhật thông tin tài khoản. => M => UPDATE

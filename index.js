@@ -1,12 +1,12 @@
 const express = require("express");
 const bodyParser = require('body-parser')
-
+const cors = require('cors');
 const authController = require("./controller/auth");
 const userController = require("./controller/user");
 
 const app = express();
 const port = 1803;
-
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
