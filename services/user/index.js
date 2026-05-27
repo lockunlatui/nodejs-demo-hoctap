@@ -1,3 +1,4 @@
+// destination 
 const { readFile } = require('node:fs/promises'); 
 const path = require("path");
 
@@ -16,7 +17,6 @@ async function getUser() {
   } catch(err) {
     console.log("error", err)
   }
-  
 }
 
 // cập nhật thông tin tài khoản. => M => UPDATE
@@ -26,6 +26,12 @@ async function getUser() {
 // nhắn tin với bên hỗ trợ phần web.
 
 // CRUD | Create | Read | Update | Delete
+
+
+// upload avatar
+function uploadAvatar() {
+
+}
 
 // -----------
 // TẠO TÀI KHOẢN => LÀM SAO ĐỂ TRÊN APP => BIẾT ĐƯỢC USER ĐÓ LÀ USER NÀO?

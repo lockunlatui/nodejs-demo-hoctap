@@ -1,10 +1,12 @@
 [
   {
     "username": "quan",
-    "password": "quan"
+    "password": "quan",
+    "urlAvatar": ""
   },
   {
     "username": "loc",
-    "password": "loc"
+    "password": "loc",
+    "urlAvatar": "abajsaj"
   }
 ]

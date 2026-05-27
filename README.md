@@ -1,42 +1,39 @@
-# Buổi 4 - Môn học NodeJS
+# Buổi 6 - Môn học NodeJS
 
-Mở rộng project Express từ [buổi 2](https://github.com/lockunlatui/nodejs-demo-hoctap/tree/buoi2): thêm **CORS**, **persistence với file JSON** và frontend **Next.js** (`course-app/`).
+Tiếp nối [buổi 4](https://github.com/lockunlatui/nodejs-demo-hoctap/tree/buoi4): thêm **upload file** với `multer` (avatar user) và bổ sung field `urlAvatar` cho user.
 
 ## Giáo viên
 
 **LỘC ĐỖ** — [locdx@locdo.tech](mailto:locdx@locdo.tech)
 
-## Nội dung buổi 4
+## Nội dung buổi 6
 
-### 1. Backend (Express)
+### Upload file với Multer
 
-- Cài thêm `cors`, mở CORS cho mọi origin để frontend gọi API
-- Đọc / ghi user vào file `store/data.json` bằng `fs/promises`
-- `POST /auth/create` → append user mới vào JSON
-- `GET /user` → đọc danh sách user từ JSON
-
-### 2. Frontend (`course-app/`)
-
-- Next.js 16 + React 19 + TailwindCSS 4
-- Khởi tạo bằng `create-next-app`
-- Sẽ gọi API từ backend Express ở `http://localhost:1803`
+- Cài `multer` để xử lý `multipart/form-data`
+- Cấu hình `diskStorage`:
+  - `destination` → folder `uploads/`
+  - `filename` → `{tên gốc}{timestamp}.{ext}` để tránh trùng
+- Endpoint mới `POST /user/upload` nhận field `avatar` (single file)
+- User schema bổ sung field `urlAvatar`
 
 ## Cấu trúc thư mục
 
 ```
 .
-├── index.js              # Express server (port 1803)
+├── index.js
 ├── controller/
-│   ├── auth/             # POST /auth/create (ghi vào data.json)
-│   └── user/             # GET /user (đọc từ data.json)
+│   ├── auth/
+│   └── user/             # + POST /user/upload (multer)
 ├── services/
 │   ├── auth/
 │   ├── course/
-│   └── user/             # getUser() đọc file JSON
+│   └── user/
 ├── store/
 │   ├── index.js
-│   └── data.json         # File "database" mock
-└── course-app/           # Next.js frontend (chạy độc lập)
+│   └── data.json         # User có thêm field urlAvatar
+├── uploads/              # Nơi multer lưu file upload (ignore trong git)
+└── course-app/           # Frontend Next.js (từ buổi 4)
 ```
 
 ## Cài đặt & chạy
@@ -64,32 +61,30 @@ npm run dev
 
 | Method | Endpoint        | Mô tả                                       |
 | ------ | --------------- | ------------------------------------------- |
-| GET    | `/`             | Trả về danh sách khoá học mẫu               |
+| GET    | `/`             | Danh sách khoá học mẫu                      |
 | GET    | `/auth/login`   | Đăng nhập (chưa hoàn thiện)                 |
 | POST   | `/auth/create`  | Tạo user mới, lưu vào `store/data.json`     |
 | GET    | `/user`         | Đọc danh sách user từ `store/data.json`     |
+| POST   | `/user/upload`  | **Mới** - Upload avatar (field `avatar`)    |
 
-### Ví dụ POST `/auth/create`
+### Ví dụ upload avatar
 
 ```bash
-curl -X POST http://localhost:1803/auth/create \
-  -H "Content-Type: application/json" \
-  -d '{"username":"locdx","password":"123456"}'
+curl -X POST http://localhost:1803/user/upload \
+  -F "avatar=@/path/to/image.png"
 ```
 
-Response:
-```json
-{ "status": 200, "message": "Create thành công" }
-```
+File sẽ được lưu vào `uploads/` với tên: `image{timestamp}.png`.
 
-## Kiến thức mới buổi 4
+## Kiến thức mới buổi 6
 
-- Middleware `cors` để cho phép cross-origin request
-- Module `fs/promises` thay cho callback-style `fs`
-- `path.join(__dirname, ...)` để build đường dẫn an toàn
-- `JSON.parse` / `JSON.stringify` khi đọc/ghi JSON
-- `async/await` cho I/O bất đồng bộ
+- `multer` middleware xử lý `multipart/form-data`
+- Phân biệt `diskStorage` vs `memoryStorage`
+- Đặt tên file unique bằng `Date.now()` để tránh ghi đè
+- `upload.single('fieldName')` cho 1 file, `upload.array(...)` cho nhiều
+- 5W1H khi thiết kế filename: who/what/when/where/why/how
 
 ## Các buổi khác
 
-- [`buoi2`](https://github.com/lockunlatui/nodejs-demo-hoctap/tree/buoi2) — Khởi tạo Express với cấu trúc controller/service/store
+- [`buoi2`](https://github.com/lockunlatui/nodejs-demo-hoctap/tree/buoi2) — Khởi tạo Express với controller/service/store
+- [`buoi4`](https://github.com/lockunlatui/nodejs-demo-hoctap/tree/buoi4) — CORS, persistence file JSON, frontend Next.js
